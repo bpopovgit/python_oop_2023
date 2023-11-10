@@ -1,7 +1,7 @@
 from typing import List
 from project.worker import Worker
 from project.animal import Animal
-
+from typing import Union
 
 class Zoo:
     def __init__(self, name: str, budget: int, animal_capacity: int, workers_capacity: int):
@@ -52,45 +52,57 @@ class Zoo:
         self.__budget += amount
 
     def animals_status(self) -> str:
-        lions = []
-        tigers = []
-        cheetahs = []
-        for animal in self.animals:
-            if animal.__class__.__name__ == "Lion":
-                lions.append(repr(animal))
-            elif animal.__class__.__name__ == "Tiger":
-                tigers.append(repr(animal))
-            else:
-                cheetahs.append(repr(animal))
-        info = [f"You have {len(self.animals)} animals", f"----- {len(lions)} Lions:"]
-        info.extend(lions)
-        info.append(f"----- {len(tigers)} Tigers:")
-        info.extend(tigers)
-        info.append(f"----- {len(cheetahs)} Cheetahs:")
-        info.extend(cheetahs)
-
-        return '\n'.join(info)
+        return self.__print_status(self.animals, "Lion", "Tiger", "Cheetah")
+        # lions = []
+        # tigers = []
+        # cheetahs = []
+        # for animal in self.animals:
+        #     if animal.__class__.__name__ == "Lion":
+        #         lions.append(repr(animal))
+        #     elif animal.__class__.__name__ == "Tiger":
+        #         tigers.append(repr(animal))
+        #     else:
+        #         cheetahs.append(repr(animal))
+        # info = [f"You have {len(self.animals)} animals", f"----- {len(lions)} Lions:"]
+        # info.extend(lions)
+        # info.append(f"----- {len(tigers)} Tigers:")
+        # info.extend(tigers)
+        # info.append(f"----- {len(cheetahs)} Cheetahs:")
+        # info.extend(cheetahs)
+        #
+        # return '\n'.join(info)
 
     def workers_status(self):
-        keepers = []
-        caretakers = []
-        vets = []
-        for worker in self.animals:
-            if worker.__class__.__name__ == "Keeper":
-                keepers.append(repr(worker))
-            elif worker.__class__.__name__ == "Caretaker":
-                caretakers.append(repr(worker))
-            else:
-                vets.append(repr(worker))
-        info = [f"You have {len(self.workers)} workers", f"----- {len(keepers)} Keepers:"]
-        info.extend(keepers)
-        info.append(f"----- {len(caretakers)} Caretakers:")
-        info.extend(caretakers)
-        info.append(f"----- {len(vets)} Vets:")
-        info.extend(vets)
+        return self.__print_status(self.workers, "Keeper", "Caretaker", "Vet")
+        # keepers = []
+        # caretakers = []
+        # vets = []
+        # for worker in self.animals:
+        #     if worker.__class__.__name__ == "Keeper":
+        #         keepers.append(repr(worker))
+        #     elif worker.__class__.__name__ == "Caretaker":
+        #         caretakers.append(repr(worker))
+        #     else:
+        #         vets.append(repr(worker))
+        # info = [f"You have {len(self.workers)} workers", f"----- {len(keepers)} Keepers:"]
+        # info.extend(keepers)
+        # info.append(f"----- {len(caretakers)} Caretakers:")
+        # info.extend(caretakers)
+        # info.append(f"----- {len(vets)} Vets:")
+        # info.extend(vets)
+        #
+        # return '\n'.join(info)
 
-        return '\n'.join(info)
+    @staticmethod
+    def __print_status(category: List[Union[Animal, Worker]], *args):
+        elements = {arg: [] for arg in args}
+        for element in category:
+            elements[element.__class__.__name__].append(repr(element))
 
-
+        result = [f"You have {len(category)} {str(category[0].__class__.__bases__[0].__name__).lower()}s"]
+        for key, value in elements.items():
+            result.append(f"----- {len(value)} {key}s:")
+            result.extend(value)
+        return "\n".join(result)
 
 

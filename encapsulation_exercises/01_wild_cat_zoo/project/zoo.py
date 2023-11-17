@@ -1,6 +1,6 @@
 from typing import List
 from project.worker import Worker
-from project.animal import Animal
+from project.animals.animal import Animal
 from typing import Union
 
 class Zoo:

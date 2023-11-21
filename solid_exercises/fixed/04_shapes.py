@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import List
 
 
 class Shape(ABC):
@@ -27,7 +28,7 @@ class Triangle(Shape):
 
 
 class AreaCalculator:
-    def __init__(self, shapes):
+    def __init__(self, shapes: List[Shape]):
         self.shapes = shapes
 
     @property

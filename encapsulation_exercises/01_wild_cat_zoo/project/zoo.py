@@ -23,7 +23,7 @@ class Zoo:
 
     def hire_worker(self, worker: Worker) -> str:
         if self.__workers_capacity <= len(self.workers):
-            return "Not enough space for worker"
+            return "Not enough space for Worker"
         self.workers.append(worker)
         return f"{worker.name} the {worker.__class__.__name__} hired successfully"
 
@@ -77,13 +77,13 @@ class Zoo:
         # keepers = []
         # caretakers = []
         # vets = []
-        # for worker in self.animals:
-        #     if worker.__class__.__name__ == "Keeper":
-        #         keepers.append(repr(worker))
-        #     elif worker.__class__.__name__ == "Caretaker":
-        #         caretakers.append(repr(worker))
+        # for Worker in self.animals:
+        #     if Worker.__class__.__name__ == "Keeper":
+        #         keepers.append(repr(Worker))
+        #     elif Worker.__class__.__name__ == "Caretaker":
+        #         caretakers.append(repr(Worker))
         #     else:
-        #         vets.append(repr(worker))
+        #         vets.append(repr(Worker))
         # info = [f"You have {len(self.workers)} workers", f"----- {len(keepers)} Keepers:"]
         # info.extend(keepers)
         # info.append(f"----- {len(caretakers)} Caretakers:")

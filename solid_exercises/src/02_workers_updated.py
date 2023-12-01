@@ -17,7 +17,7 @@ class AbstractWorker:
 class Worker(AbstractWorker):
     @staticmethod
     def work():
-        print("I'm normal worker. I'm working.")
+        print("I'm normal Worker. I'm working.")
 
     @staticmethod
     def eat():
@@ -28,7 +28,7 @@ class Worker(AbstractWorker):
 class SuperWorker(AbstractWorker):
 
     def work(self):
-        print("I'm super worker. I work very hard!")
+        print("I'm super Worker. I work very hard!")
 
     def eat(self):
         print("Lunch break....(3 secs)")
@@ -41,7 +41,7 @@ class Manager:
         self.worker = None
 
     def set_worker(self, worker):
-        assert isinstance(worker, AbstractWorker), "`worker` must be of type {}".format(AbstractWorker)
+        assert isinstance(worker, AbstractWorker), "`Worker` must be of type {}".format(AbstractWorker)
 
         self.worker = worker
 

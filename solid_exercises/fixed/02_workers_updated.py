@@ -19,7 +19,7 @@ class Eatable(ABC):
 class Worker(Workable, Eatable):
     @staticmethod
     def work():
-        print("I'm normal worker. I'm working.")
+        print("I'm normal Worker. I'm working.")
     @staticmethod
     def eat():
         print("Lunch break....(5 secs)")
@@ -30,7 +30,7 @@ class SuperWorker(Workable, Eatable):
 
     @staticmethod
     def work():
-        print("I'm super worker. I work very hard!")
+        print("I'm super Worker. I work very hard!")
     @staticmethod
     def eat():
         print("Lunch break....(3 secs)")
@@ -56,7 +56,7 @@ class BaseManager(ABC):
 class WorkManager(BaseManager):
 
     def set_worker(self, worker):
-        assert isinstance(worker, Workable), "`worker` must be of type {}".format(Workable)
+        assert isinstance(worker, Workable), "`Worker` must be of type {}".format(Workable)
 
         self.worker = worker
 
@@ -66,7 +66,7 @@ class WorkManager(BaseManager):
 
 class BreakManager(BaseManager):
     def set_worker(self, worker):
-        assert isinstance(worker, Eatable), "`worker` must be of type {}".format(Eatable)
+        assert isinstance(worker, Eatable), "`Worker` must be of type {}".format(Eatable)
 
         self.worker = worker
 

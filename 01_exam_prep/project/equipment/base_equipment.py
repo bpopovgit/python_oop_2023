@@ -7,5 +7,5 @@ class BaseEquipment(ABC):
         self.price = price
 
     @abstractmethod
-    def increased_price(self):
+    def increase_price(self):
         pass

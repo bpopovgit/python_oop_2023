@@ -6,4 +6,4 @@ class ElbowPad(BaseEquipment):
         super().__init__(90, 25.0)
 
     def increase_price(self):
-        self.price *= 1.10
+        self.price *= 1.1

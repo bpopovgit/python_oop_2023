@@ -31,6 +31,20 @@ class TestHashTable(unittest.TestCase):
 
         self.assertIn(("hello", "Hello World!"), hash_table.array)
 
+    def test_find_value_by_key(self):
+        self.assertEqual("Hello World!", self.hash_table["hello"])
+        self.assertEqual(37, self.hash_table[98.6])
+        self.assertTrue(self.hash_table[False])
+
+    def test_str_representation(self):
+        actual = str(self.hash_table)
+        expected = "{False: True, 98.6: 37, hello: Hello World!}"
+        self.assertEqual(expected, actual)
+
+    def test_delete_item(self):
+        self.hash_table.__delitem__("hello")
+        self.assertNotIn("hello", self.hash_table.keys)
+
 
 if __name__ == "__main__":
     unittest.main()

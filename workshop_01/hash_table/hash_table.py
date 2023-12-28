@@ -1,4 +1,6 @@
-from typing import NamedTuple, Any
+from typing import NamedTuple, Any, List, Optional, Union
+
+DELETED = object()
 
 
 class Pair(NamedTuple):
@@ -7,9 +9,9 @@ class Pair(NamedTuple):
 
 
 class HashTable:
-    def __init__(self, capacity):
+    def __init__(self, capacity: int = 4):
         self.capacity = capacity
-        self._array = capacity * [None]
+        self._array: List[Optional[Union[Pair, DELETED]]] = self.capacity * [None]
 
     @property
     def capacity(self):
@@ -23,7 +25,10 @@ class HashTable:
 
     @property
     def array(self):
-        return {pair for pair in self._array if pair}
+        return {
+            pair for pair in self._array
+            if pair not in (None, DELETED)
+        }
 
     @property
     def keys(self):
@@ -46,8 +51,9 @@ class HashTable:
         return len(self.array)
 
     def __setitem__(self, key, value):
-        #self._array[self.hash(key)] = Pair(key, value)
         for index, pair in self._probe(key):
+            if pair is DELETED:
+                continue
             if pair is None or pair.key == key:
                 self._array[index] = Pair(key, value)
                 break
@@ -56,10 +62,15 @@ class HashTable:
             self[key] = value
 
     def __getitem__(self, key):
-        pair = self._array[self.hash(key)]
-        if pair is None:
+        for _, pair in self._probe(key):
+            if pair is None:
+                raise KeyError(key)
+            if pair is DELETED:
+                continue
+            if pair.key == key:
+                return pair.value
+        else:
             raise KeyError(key)
-        return pair.value
 
     def __contains__(self, key):
         try:
@@ -70,6 +81,17 @@ class HashTable:
             return True
 
     def __delitem__(self, key):
+        for index, pair in self._probe(key):
+            if pair is None:
+                raise KeyError(key)
+            if pair is DELETED:
+                continue
+            if pair.key == key:
+                self._array[index] = DELETED
+                break
+        else:
+            raise KeyError(key)
+
         if key in self:
             self._array[self.hash(key)] = None
         else:
@@ -91,4 +113,9 @@ class HashTable:
             index = (index + 1) % self.capacity
 
     def _resize(self):
-        pass
+        copy = HashTable(capacity=self.capacity * 2)
+        # copy.capacity = self.capacity * 2
+        for key, value in self.array:
+            copy[key] = value
+        self.capacity = copy.capacity
+        self._array = copy._array

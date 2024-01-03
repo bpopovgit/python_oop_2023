@@ -30,4 +30,13 @@ class CustomList:
         except IndexError:
             return None
 
+    def get(self, index: int, default_val: Optional[Any] = None):
+        self.__check_index_type(index)
+        try:
+            return self.__values[index]
+        except IndexError:
+            if default_val is None:
+                return None
+            return default_val
+
 

@@ -87,6 +87,16 @@ class TestCustomList(TestCase):
         self.assertEqual(len(self.cl._CustomList__values), 2)
         self.assertEqual(self.cl._CustomList__values, [5, 3.6])
 
+    def test_remove_minus_index_returns_element(self):
+        self.assertEqual(len(self.cl._CustomList__values), 3)
+        self.assertEqual(self.cl._CustomList__values, [5, "asd", 3.6])
+
+        result = self.cl.remove(-1)
+
+        self.assertEqual(result, 3.6)
+        self.assertEqual(len(self.cl._CustomList__values), 2)
+        self.assertEqual(self.cl._CustomList__values, [5, "asd"])
+
     def test_safe_remove_invalid_index_type_raises(self):
         self.assertEqual(len(self.cl._CustomList__values), 3)
         self.assertEqual(self.cl._CustomList__values, [5, "asd", 3.6])
@@ -105,8 +115,61 @@ class TestCustomList(TestCase):
         result = self.cl.safe_remove(12)
         self.assertIsNone(result)
 
+    def test_safe_remove_minus_index_returns_element(self):
+        self.assertEqual(len(self.cl._CustomList__values), 3)
+        self.assertEqual(self.cl._CustomList__values, [5, "asd", 3.6])
+
+        result = self.cl.safe_remove(-1)
+
+        self.assertEqual(result, 3.6)
+        self.assertEqual(len(self.cl._CustomList__values), 2)
+        self.assertEqual(self.cl._CustomList__values, [5, "asd"])
+
     def test_safe_remove_returns(self):
         pass
+
+    def test_get_invalid_index_type_raises(self):
+        self.assertEqual(len(self.cl._CustomList__values), 3)
+        self.assertEqual(self.cl._CustomList__values, [5, "asd", 3.6])
+
+        invalid_index_values = [3.6, "asd", "3", [12, 3], {"a": 1}]
+
+        for invalid_index in invalid_index_values:
+            with self.assertRaises(ValueError) as ex:
+                self.cl.get(invalid_index)
+            self.assertIn("Invalid index type", str(ex.exception))
+
+    def test_get_invalid_index_returns_none(self):
+        self.assertEqual(len(self.cl._CustomList__values), 3)
+        self.assertEqual(self.cl._CustomList__values, [5, "asd", 3.6])
+
+        result = self.cl.get(3)
+        self.assertIsNone(result)
+
+        self.assertEqual(len(self.cl._CustomList__values), 3)
+        self.assertEqual(self.cl._CustomList__values, [5, "asd", 3.6])
+
+    def test_get(self):
+        self.assertEqual(len(self.cl._CustomList__values), 3)
+        self.assertEqual(self.cl._CustomList__values, [5, "asd", 3.6])
+
+        result = self.cl.get(1)
+        self.assertEqual("asd", result)
+
+        self.assertEqual(len(self.cl._CustomList__values), 3)
+        self.assertEqual(self.cl._CustomList__values, [5, "asd", 3.6])
+
+    def test_get_with_optional_invalid_index_returns_optional_arg(self):
+        self.assertEqual(len(self.cl._CustomList__values), 3)
+        self.assertEqual(self.cl._CustomList__values, [5, "asd", 3.6])
+
+        result = self.cl.get(11, "Test")
+        self.assertEqual("Test", result)
+
+        self.assertEqual(len(self.cl._CustomList__values), 3)
+        self.assertEqual(self.cl._CustomList__values, [5, "asd", 3.6])
+
+
 
 
 if __name__ == "__main__":
